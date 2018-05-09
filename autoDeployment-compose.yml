@@ -1,0 +1,54 @@
+version: "3"  
+services: 
+  jenkins:  
+    container_name: dev-jenkins
+    image: harbor.legendshop.cn/legendshop-dev/jenkins:latest
+    restart: always
+    privileged: true
+    volumes:  
+      - /var/jenkins_home/:/var/jenkins_home
+      - /usr/local/jdk1.8.0_45/:/usr/local/jdk
+      - /usr/local/sonar-scanner-3.1.0.1141:/usr/local/sonar-scanner-3.1.0.1141     
+      - /usr/local/apache-maven-3.5.0:/usr/local/apache-maven-3.5.0
+      - /var/run/docker.sock:/var/run/docker.sock 
+      - /usr/bin/docker:/usr/bin/docker
+      - /usr/local/bin/docker-compose:/usr/local/bin/docker-compose
+      -  ~/.ssh:/root/.ssh
+    restart: always
+    environment:
+      TZ: ${GLOBAL_TIME_ZONE}
+      JAVA_OPTS: "-Dorg.apache.commons.jelly.tags.fmt.timeZone=Asia/Shanghai"
+    ports:  
+      - "8080:8080"
+  mysql:  
+    container_name: dev-mysql
+    image: harbor.legendshop.cn/legendshop-public/mysql:5.6
+    restart: always
+    volumes:  
+      - ./db/mysql/data:/var/lib/mysql 
+      - ./db/mysql/conf.d:/etc/mysql/conf.d    
+      - ./db/mysql/init_db/:/docker-entrypoint-initdb.d      
+    restart: always
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
+      TZ: ${GLOBAL_TIME_ZONE}
+    ports:  
+      - "${MYSQL_PORT}:3306"
+  sonarqube:  
+    container_name: dev-sonarqube
+    image: harbor.legendshop.cn/legendshop-public/sonarqube:latest
+    restart: always
+    volumes:  
+      - ./sonarqube/conf:/opt/sonarqube/conf
+      - ./sonarqube/data:/opt/sonarqube/data
+      - ./sonarqube/extensions:/opt/sonarqube/extensions
+      - ./sonarqube/bundled-plugins:/opt/sonarqube/lib/bundled-plugins
+    environment:
+      SONARQUBE_JDBC_USERNAME: ${SONARQUBE_JDBC_USERNAME}
+      SONARQUBE_JDBC_PASSWORD: ${SONARQUBE_JDBC_PASSWORD} 
+      SONARQUBE_JDBC_URL: ${SONARQUBE_JDBC_URL}
+    ports:  
+      - "9000:9000"
+
+      
