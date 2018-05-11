@@ -8,10 +8,6 @@ First of all, you have to clone this project in your directory with the followin
 git clone https://github.com/lizibin/docker-jenkins-sonarqube.git
 ```
 ```Bash
-docker login repo.1000m.xin
-```
-the username is github ,pwd LIZIBINlizibin520
-```Bash
 docker-compose -f autoDeployment-compose.yml up -d
 ```
 
