@@ -8,7 +8,7 @@ First of all, you have to clone this project in your directory with the followin
 git clone https://github.com/lizibin/docker-jenkins-sonarqube.git
 ```
 ```Bash
-docker-compose up -d
+docker-compose -f autoDeployment-compose.yml up -d
 ```
 
 
