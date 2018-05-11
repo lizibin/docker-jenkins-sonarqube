@@ -2,7 +2,7 @@ version: "3"
 services: 
   jenkins:  
     container_name: dev-jenkins
-    image: harbor.legendshop.cn/legendshop-dev/jenkins:latest
+    image: repo.1000m.xin/public/jenkins:latest
     restart: always
     privileged: true
     volumes:  
@@ -22,7 +22,7 @@ services:
       - "8080:8080"
   mysql:  
     container_name: dev-mysql
-    image: harbor.legendshop.cn/legendshop-public/mysql:5.6
+    image: repo.1000m.xin/public/mysql:5.6
     restart: always
     volumes:  
       - ./db/mysql/data:/var/lib/mysql 
@@ -37,7 +37,7 @@ services:
       - "${MYSQL_PORT}:3306"
   sonarqube:  
     container_name: dev-sonarqube
-    image: harbor.legendshop.cn/legendshop-public/sonarqube:latest
+    image: repo.1000m.xin/public/sonarqube:latest
     restart: always
     volumes:  
       - ./sonarqube/conf:/opt/sonarqube/conf
